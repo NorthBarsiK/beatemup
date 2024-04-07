@@ -11,9 +11,15 @@ config_version=5
 [application]
 
 config/name="beatemup"
+run/main_scene="res://levels/test/test_scene.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
 
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

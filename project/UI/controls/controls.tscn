@@ -1,0 +1,72 @@
+[gd_scene load_steps=7 format=3 uid="uid://blmvse35yw5l4"]
+
+[ext_resource type="Script" path="res://UI/controls/controls.gd" id="1_dy77c"]
+[ext_resource type="Texture2D" uid="uid://2xb0o0y6dlxq" path="res://UI/controls/sprites/jump_button.png" id="1_rfwxs"]
+[ext_resource type="Script" path="res://UI/controls/touch_control.gd" id="3_s8g16"]
+[ext_resource type="Script" path="res://UI/controls/stick_input.gd" id="4_ufeir"]
+[ext_resource type="Texture2D" uid="uid://cbp2rhqqdvin5" path="res://UI/controls/sprites/stick_frame.png" id="5_6eq0w"]
+[ext_resource type="Texture2D" uid="uid://d0g1lv2fqffft" path="res://UI/controls/sprites/stick_point.png" id="6_yq0k4"]
+
+[node name="Controls" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_dy77c")
+
+[node name="ControlsContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeftControls" type="Control" parent="ControlsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RightControls" type="Control" parent="ControlsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="Jump" type="TextureButton" parent="ControlsContainer/RightControls"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.75, 0.75)
+texture_normal = ExtResource("1_rfwxs")
+stretch_mode = 4
+script = ExtResource("3_s8g16")
+
+[node name="StickInput" type="Node" parent="."]
+script = ExtResource("4_ufeir")
+
+[node name="StickFrame" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+pivot_offset = Vector2(128, 128)
+texture = ExtResource("5_6eq0w")
+stretch_mode = 2
+
+[node name="StickPoint" type="TextureRect" parent="."]
+layout_mode = 1
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("6_yq0k4")
+
+[connection signal="button_up" from="ControlsContainer/RightControls/Jump" to="." method="emit_jump"]
+[connection signal="stick_drag" from="StickInput" to="." method="_on_stick_drag"]

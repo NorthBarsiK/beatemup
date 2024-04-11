@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dn6oykhkef5cw"]
+[gd_scene load_steps=6 format=3 uid="uid://dn6oykhkef5cw"]
 
 [ext_resource type="PackedScene" uid="uid://c7tn8j1t126aq" path="res://characters/test/character_base.tscn" id="1_7kc0w"]
-[ext_resource type="PackedScene" uid="uid://dq5qxva1s6kt3" path="res://UI/technical_info.tscn" id="2_307ix"]
+[ext_resource type="PackedScene" uid="uid://dq5qxva1s6kt3" path="res://UI/debug/technical_info.tscn" id="2_307ix"]
+[ext_resource type="PackedScene" uid="uid://blmvse35yw5l4" path="res://UI/controls/controls.tscn" id="3_6svh8"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_5lpjy"]
 size = Vector3(20, 1, 20)
@@ -31,7 +32,8 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 3.69571, 3.59175)
 
 [node name="TechnicalInfo" parent="." instance=ExtResource("2_307ix")]
-offset_left = 826.908
-offset_top = 166.142
-offset_right = 826.907
-offset_bottom = 166.142
+
+[node name="Controls" parent="." instance=ExtResource("3_6svh8")]
+
+[connection signal="jump" from="Controls" to="Character" method="jump"]
+[connection signal="move" from="Controls" to="Character" method="set_movement_vector"]

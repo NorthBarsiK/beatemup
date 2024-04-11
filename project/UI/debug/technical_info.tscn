@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dq5qxva1s6kt3"]
 
-[ext_resource type="Script" path="res://UI/technical_info.gd" id="1_kvcsn"]
+[ext_resource type="Script" path="res://UI/debug/technical_info.gd" id="1_7rtrt"]
 
 [node name="TechnicalInfo" type="Control"]
 layout_mode = 3
@@ -10,7 +10,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_kvcsn")
+script = ExtResource("1_7rtrt")
 
 [node name="Info" type="Label" parent="."]
 layout_mode = 1

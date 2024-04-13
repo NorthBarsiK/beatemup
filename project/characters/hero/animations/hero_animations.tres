@@ -1,0 +1,20 @@
+[gd_resource type="AnimationLibrary" load_steps=8 format=3 uid="uid://qrhnmrmtr82x"]
+
+[ext_resource type="Animation" uid="uid://bywvbmvq62bnv" path="res://characters/hero/animations/idle_1.res" id="1_4knuv"]
+[ext_resource type="Animation" uid="uid://viupgomwewnn" path="res://characters/hero/animations/walk_1.res" id="2_pyb73"]
+[ext_resource type="Animation" uid="uid://bqxcltmk5gex2" path="res://characters/hero/animations/fight_idle_1.res" id="3_yk7jn"]
+[ext_resource type="Animation" uid="uid://bppacgy6sxymh" path="res://characters/hero/animations/fight_walk_forward_1.res" id="4_6q1jv"]
+[ext_resource type="Animation" uid="uid://2krng0sh3pil" path="res://characters/hero/animations/fight_walk_back_1.res" id="5_fdapg"]
+[ext_resource type="Animation" uid="uid://c4i04hb7p4y3g" path="res://characters/hero/animations/fight_walk_right_1.res" id="6_xai4f"]
+[ext_resource type="Animation" uid="uid://btj32bemdstjf" path="res://characters/hero/animations/fight_walk_left_1.res" id="7_mmvhc"]
+
+[resource]
+_data = {
+"fight_idle_1": ExtResource("3_yk7jn"),
+"fight_walk_back_1": ExtResource("5_fdapg"),
+"fight_walk_forward_1": ExtResource("4_6q1jv"),
+"fight_walk_left_1": ExtResource("7_mmvhc"),
+"fight_walk_right_1": ExtResource("6_xai4f"),
+"idle_1": ExtResource("1_4knuv"),
+"walk_1": ExtResource("2_pyb73")
+}

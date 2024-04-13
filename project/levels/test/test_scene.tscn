@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://dn6oykhkef5cw"]
 
-[ext_resource type="PackedScene" uid="uid://c7tn8j1t126aq" path="res://characters/test/character_base.tscn" id="1_7kc0w"]
 [ext_resource type="PackedScene" uid="uid://dq5qxva1s6kt3" path="res://UI/debug/technical_info.tscn" id="2_307ix"]
 [ext_resource type="PackedScene" uid="uid://blmvse35yw5l4" path="res://UI/controls/controls.tscn" id="3_6svh8"]
+[ext_resource type="PackedScene" uid="uid://ct4i8jjtxuquu" path="res://characters/hero/hero.tscn" id="3_155ue"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_5lpjy"]
 size = Vector3(20, 1, 20)
@@ -26,10 +26,10 @@ transform = Transform3D(0.541605, -0.427247, 0.723963, 0, 0.861213, 0.508245, -0
 light_energy = 0.75
 shadow_enabled = true
 
-[node name="Character" parent="." instance=ExtResource("1_7kc0w")]
-
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 3.69571, 3.59175)
+
+[node name="Character" parent="." instance=ExtResource("3_155ue")]
 
 [node name="TechnicalInfo" parent="." instance=ExtResource("2_307ix")]
 

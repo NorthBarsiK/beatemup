@@ -24,7 +24,7 @@ func _on_stick_drag(stick_center_arg : Vector2, stick_vector_arg : Vector2):
 	stick_center = stick_center_arg
 	stick_vector = stick_vector_arg
 
-func  _process(delta):
+func _process(delta):
 	#print(stick_vector)
 	if stick_center != Vector2.ZERO:
 		if not stick_frame.visible:

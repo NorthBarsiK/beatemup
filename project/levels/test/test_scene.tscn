@@ -24,7 +24,6 @@ shape = SubResource("ConcavePolygonShape3D_bdis3")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.541605, -0.427247, 0.723963, 0, 0.861213, 0.508245, -0.840633, -0.275268, 0.466437, 0, 1.90928, 0)
 light_energy = 0.75
-shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 3.69571, 3.59175)
@@ -36,4 +35,4 @@ transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 
 [node name="Controls" parent="." instance=ExtResource("3_6svh8")]
 
 [connection signal="jump" from="Controls" to="Character" method="jump"]
-[connection signal="move" from="Controls" to="Character" method="set_movement_vector"]
+[connection signal="move" from="Controls" to="Character" method="move"]

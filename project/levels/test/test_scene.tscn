@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dn6oykhkef5cw"]
+[gd_scene load_steps=7 format=3 uid="uid://dn6oykhkef5cw"]
 
 [ext_resource type="PackedScene" uid="uid://dq5qxva1s6kt3" path="res://UI/debug/technical_info.tscn" id="2_307ix"]
 [ext_resource type="PackedScene" uid="uid://blmvse35yw5l4" path="res://UI/controls/controls.tscn" id="3_6svh8"]
 [ext_resource type="PackedScene" uid="uid://ct4i8jjtxuquu" path="res://characters/hero/hero.tscn" id="3_155ue"]
+[ext_resource type="PackedScene" uid="uid://cr1v71f33wuqq" path="res://levels/props/punching_bag.tscn" id="4_wgdcn"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_5lpjy"]
 size = Vector3(20, 1, 20)
@@ -33,6 +34,9 @@ transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 
 [node name="TechnicalInfo" parent="." instance=ExtResource("2_307ix")]
 
 [node name="Controls" parent="." instance=ExtResource("3_6svh8")]
+
+[node name="PunchingBag" parent="." instance=ExtResource("4_wgdcn")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.000342846, 0, -4.09759)
 
 [connection signal="jump" from="Controls" to="Character" method="jump"]
 [connection signal="move" from="Controls" to="Character" method="move"]

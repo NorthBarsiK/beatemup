@@ -25,8 +25,8 @@ func _physics_process(delta):
 		if look_target.length() > 0:
 			look_at(look_target, Vector3.UP)
 	else:
-		velocity.x = 0#move_toward(velocity.x, 0, speed)
-		velocity.z = 0#move_toward(velocity.z, 0, speed)
+		velocity.x = 0
+		velocity.z = 0
 		animation_player.play("hero_animations/idle_1")
 	
 	move_and_slide()

@@ -38,7 +38,8 @@ func set_stick_position():
 		var stick_point_offset = stick_point.size/2 * stick_point.scale
 		
 		stick_frame.position = stick_center - stick_frame.size/2
-		stick_point.position = (stick_frame.position + stick_frame_offset - stick_point_offset) + ((stick_frame.size.x + stick_point.size.x) / stick_sensivity * stick_vector)
+		stick_point.position = (stick_frame.position + stick_frame_offset - stick_point_offset)\
+		 + ((stick_frame.size.x + stick_point.size.x) / stick_sensivity * stick_vector)
 	else:
 		stick_frame.hide()
 		stick_point.hide()

@@ -7,9 +7,6 @@ extends CharacterBody3D
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var movement_direction : Vector2 = Vector2.ZERO
-var movement_input_point : Vector2 = Vector2.ZERO
-
-var is_movement : bool = false
 
 func _ready():
 	animation_player.add_animation_library("hero_animations", load("res://characters/hero/animations/hero_animations.tres"))
@@ -34,7 +31,7 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
-func set_movement_vector(movement_vector : Vector2):
+func move(movement_vector : Vector2):
 	movement_direction = movement_vector
 
 func jump():

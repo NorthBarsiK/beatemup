@@ -68,5 +68,5 @@ offset_right = 64.0
 offset_bottom = 64.0
 texture = ExtResource("6_yq0k4")
 
-[connection signal="button_up" from="ControlsContainer/RightControls/Jump" to="." method="emit_jump"]
+[connection signal="button_up" from="ControlsContainer/RightControls/Jump" to="." method="_emit_jump"]
 [connection signal="stick_drag" from="StickInput" to="." method="_on_stick_drag"]

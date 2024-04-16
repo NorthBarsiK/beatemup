@@ -30,6 +30,7 @@ light_energy = 0.75
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 3.69571, 3.59175)
 
 [node name="Character" parent="." instance=ExtResource("3_155ue")]
+fight_target_node = NodePath("../PunchingBag")
 
 [node name="TechnicalInfo" parent="." instance=ExtResource("2_307ix")]
 

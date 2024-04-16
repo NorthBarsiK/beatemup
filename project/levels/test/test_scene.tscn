@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dn6oykhkef5cw"]
+[gd_scene load_steps=9 format=3 uid="uid://dn6oykhkef5cw"]
 
 [ext_resource type="PackedScene" uid="uid://dq5qxva1s6kt3" path="res://UI/debug/technical_info.tscn" id="2_307ix"]
 [ext_resource type="PackedScene" uid="uid://blmvse35yw5l4" path="res://UI/controls/controls.tscn" id="3_6svh8"]
 [ext_resource type="PackedScene" uid="uid://ct4i8jjtxuquu" path="res://characters/hero/hero.tscn" id="3_155ue"]
+[ext_resource type="PackedScene" uid="uid://dm7qypi2sqiat" path="res://levels/test/fighting_manager.tscn" id="4_jvc2x"]
 [ext_resource type="PackedScene" uid="uid://cr1v71f33wuqq" path="res://levels/props/punching_bag.tscn" id="4_wgdcn"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_5lpjy"]
@@ -10,6 +11,9 @@ size = Vector3(20, 1, 20)
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_bdis3"]
 data = PackedVector3Array(-10, 0.5, 10, 10, 0.5, 10, -10, -0.5, 10, 10, 0.5, 10, 10, -0.5, 10, -10, -0.5, 10, 10, 0.5, -10, -10, 0.5, -10, 10, -0.5, -10, -10, 0.5, -10, -10, -0.5, -10, 10, -0.5, -10, 10, 0.5, 10, 10, 0.5, -10, 10, -0.5, 10, 10, 0.5, -10, 10, -0.5, -10, 10, -0.5, 10, -10, 0.5, -10, -10, 0.5, 10, -10, -0.5, -10, -10, 0.5, 10, -10, -0.5, 10, -10, -0.5, -10, 10, 0.5, 10, -10, 0.5, 10, 10, 0.5, -10, -10, 0.5, 10, -10, 0.5, -10, 10, 0.5, -10, -10, -0.5, 10, 10, -0.5, 10, -10, -0.5, -10, 10, -0.5, 10, 10, -0.5, -10, -10, -0.5, -10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2gpun"]
+size = Vector3(20, 6, 20)
 
 [node name="TestScene" type="Node3D"]
 
@@ -29,15 +33,26 @@ light_energy = 0.75
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 3.69571, 3.59175)
 
-[node name="Character" parent="." instance=ExtResource("3_155ue")]
-fight_target_node = NodePath("../PunchingBag")
+[node name="Character" parent="." groups=["player"] instance=ExtResource("3_155ue")]
 
 [node name="TechnicalInfo" parent="." instance=ExtResource("2_307ix")]
 
 [node name="Controls" parent="." instance=ExtResource("3_6svh8")]
 
-[node name="PunchingBag" parent="." instance=ExtResource("4_wgdcn")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.000342846, 0, -4.09759)
+[node name="FightingManager" parent="." instance=ExtResource("4_jvc2x")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FightingManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.59766, 0)
+shape = SubResource("BoxShape3D_2gpun")
+
+[node name="PunchingBag" parent="FightingManager" groups=["enemy"] instance=ExtResource("4_wgdcn")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 5.18083, 0, 0.0366139)
+
+[node name="PunchingBag2" parent="FightingManager" groups=["enemy"] instance=ExtResource("4_wgdcn")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -5.15468, 0, 0.0366139)
+
+[node name="PunchingBag3" parent="FightingManager" groups=["enemy"] instance=ExtResource("4_wgdcn")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.000342846, 0, -4.68819)
 
 [connection signal="jump" from="Controls" to="Character" method="jump"]
 [connection signal="move" from="Controls" to="Character" method="move"]

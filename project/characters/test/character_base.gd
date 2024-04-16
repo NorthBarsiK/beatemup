@@ -29,7 +29,7 @@ func _physics_process(delta):
 		var look_target : Vector3 = Vector3.ZERO
 		
 		if fight_target == null:
-			look_target = global_position - velocity.normalized()
+			look_target = global_position + velocity.normalized()
 		else:
 			look_target = fight_target.global_position
 		
@@ -50,3 +50,6 @@ func move(movement_vector : Vector2):
 func jump():
 	if is_on_floor():
 		velocity.y = jump_velocity
+
+func set_target(new_target : Node3D):
+	fight_target = new_target

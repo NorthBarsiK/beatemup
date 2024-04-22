@@ -45,14 +45,8 @@ transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.59766, 0)
 shape = SubResource("BoxShape3D_2gpun")
 
-[node name="PunchingBag" parent="FightingManager" groups=["enemy"] instance=ExtResource("4_wgdcn")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 5.18083, 0, 0.0366139)
-
-[node name="PunchingBag2" parent="FightingManager" groups=["enemy"] instance=ExtResource("4_wgdcn")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -5.15468, 0, 0.0366139)
-
 [node name="PunchingBag3" parent="FightingManager" groups=["enemy"] instance=ExtResource("4_wgdcn")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.000342846, 0, -4.68819)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.000342846, 0, -1.99536)
 
 [connection signal="jump" from="Controls" to="Character" method="jump"]
 [connection signal="move" from="Controls" to="Character" method="move"]

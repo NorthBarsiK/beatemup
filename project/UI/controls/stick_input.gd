@@ -34,7 +34,6 @@ func _input(event):
 				stick_vector.x = ((event.relative.x + event.position.x) - stick_center.x) / 64
 				stick_vector.y = ((event.relative.y + event.position.y) - stick_center.y) / 64
 				stick_vector = stick_vector.limit_length(1.0)
-				#print(stick_vector)
 				if stick_vector.length() > stick_death_zone:
 					emit_signal("stick_drag", stick_center, stick_vector)
 				else:

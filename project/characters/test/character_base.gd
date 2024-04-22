@@ -11,6 +11,9 @@ var fight_jump_anim : float = 0.0
 
 var fight_target : Node = null
 var is_in_fight : bool = true
+var is_continue_combo : bool = false
+var is_can_continue_combo : bool = false
+var is_in_strike : bool = false
 
 var is_can_moving : bool = true
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -72,6 +75,36 @@ func jump():
 	if is_on_floor():
 		anim_tree.set("parameters/fight_jump_shot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 		velocity.y = jump_velocity
+
+func kick():
+	if is_on_floor():
+		if not is_in_strike:
+			anim_tree.set("parameters/strike_shot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			is_in_strike = true
+		elif is_can_continue_combo:
+			continue_combo()
+
+func punch():
+	pass
+
+func continue_combo():
+	if is_can_continue_combo:
+		anim_tree.set("parameters/strikes/conditions/is_continue_combo", true)
+		is_continue_combo = true
+
+func allow_continuation_combo():
+	is_continue_combo = false
+	is_can_continue_combo = true
+
+func deny_continuation_combo():
+	if not is_continue_combo:
+		combo_end()
+	
+	is_can_continue_combo = false
+	
+func combo_end():
+	anim_tree.set("parameters/strikes/conditions/is_continue_combo", false)
+	is_in_strike = false
 
 func set_target(new_target : Node3D):
 	fight_target = new_target

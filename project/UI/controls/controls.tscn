@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://blmvse35yw5l4"]
+[gd_scene load_steps=9 format=3 uid="uid://blmvse35yw5l4"]
 
 [ext_resource type="Script" path="res://UI/controls/controls.gd" id="1_dy77c"]
 [ext_resource type="Texture2D" uid="uid://2xb0o0y6dlxq" path="res://UI/controls/sprites/jump_button.png" id="1_rfwxs"]
 [ext_resource type="Script" path="res://UI/controls/touch_control.gd" id="3_s8g16"]
+[ext_resource type="Texture2D" uid="uid://c5xdd6g1a18yr" path="res://UI/controls/sprites/kick_button.png" id="4_ndisv"]
 [ext_resource type="Script" path="res://UI/controls/stick_input.gd" id="4_ufeir"]
 [ext_resource type="Texture2D" uid="uid://cbp2rhqqdvin5" path="res://UI/controls/sprites/stick_frame.png" id="5_6eq0w"]
+[ext_resource type="Texture2D" uid="uid://bmioo6rb578xv" path="res://UI/controls/sprites/punch_button.png" id="5_ng2n0"]
 [ext_resource type="Texture2D" uid="uid://d0g1lv2fqffft" path="res://UI/controls/sprites/stick_point.png" id="6_yq0k4"]
 
 [node name="Controls" type="Control"]
@@ -42,12 +44,51 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -40.0
+offset_left = -211.0
+offset_top = -218.0
+offset_right = 45.0
+offset_bottom = 38.0
 grow_horizontal = 0
 grow_vertical = 0
 scale = Vector2(0.75, 0.75)
 texture_normal = ExtResource("1_rfwxs")
+stretch_mode = 4
+script = ExtResource("3_s8g16")
+
+[node name="Kick" type="TextureButton" parent="ControlsContainer/RightControls"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -263.0
+offset_top = -433.0
+offset_right = -7.0
+offset_bottom = -177.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.75, 0.75)
+texture_normal = ExtResource("4_ndisv")
+stretch_mode = 4
+script = ExtResource("3_s8g16")
+
+[node name="Punch" type="TextureButton" parent="ControlsContainer/RightControls"]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -433.0
+offset_top = -272.0
+offset_right = -177.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.75, 0.75)
+texture_normal = ExtResource("5_ng2n0")
 stretch_mode = 4
 script = ExtResource("3_s8g16")
 
@@ -69,4 +110,6 @@ offset_bottom = 64.0
 texture = ExtResource("6_yq0k4")
 
 [connection signal="button_up" from="ControlsContainer/RightControls/Jump" to="." method="_emit_jump"]
+[connection signal="button_up" from="ControlsContainer/RightControls/Kick" to="." method="_emit_kick"]
+[connection signal="button_up" from="ControlsContainer/RightControls/Punch" to="." method="_emit_punch"]
 [connection signal="stick_drag" from="StickInput" to="." method="_on_stick_drag"]

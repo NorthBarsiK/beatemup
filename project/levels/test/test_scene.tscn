@@ -49,4 +49,6 @@ shape = SubResource("BoxShape3D_2gpun")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.000342846, 0, -1.99536)
 
 [connection signal="jump" from="Controls" to="Character" method="jump"]
+[connection signal="kick" from="Controls" to="Character" method="kick"]
 [connection signal="move" from="Controls" to="Character" method="move"]
+[connection signal="punch" from="Controls" to="Character" method="punch"]

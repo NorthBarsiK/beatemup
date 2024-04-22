@@ -1,6 +1,8 @@
 extends Control
 
 signal jump
+signal kick
+signal punch
 signal move (movement_vector : Vector2)
 
 @export var stick_sensivity : float = 4
@@ -18,6 +20,12 @@ func _ready():
 	
 func _emit_jump():
 	emit_signal("jump")
+
+func _emit_kick():
+	emit_signal("kick")
+
+func _emit_punch():
+	emit_signal("punch")
 
 func _on_stick_drag(stick_center_arg : Vector2, stick_vector_arg : Vector2):
 	emit_signal("move", stick_vector_arg)

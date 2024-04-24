@@ -1,6 +1,8 @@
 extends CharacterBody3D
 
-@export var speed : float = 1.0
+@export var fight_movement_speed : float = 1.0
+@export var walk_speed : float = 1.7
+@export var run_speed : float = 4.0
 @export var jump_velocity : float = 4.0
 
 @onready var anim_tree : AnimationTree = get_node("AnimationTree")
@@ -10,7 +12,7 @@ var fight_movement_anim : Vector2 = Vector2.ZERO
 var fight_jump_anim : float = 0.0
 
 var fight_target : Node = null
-var is_in_fight : bool = true
+var is_in_fight : bool = false
 var is_continue_combo : bool = false
 var is_can_continue_combo : bool = false
 var is_in_strike : bool = false
@@ -48,17 +50,47 @@ func _physics_process(delta):
 		
 		fight_movement_anim = lerp(fight_movement_anim, new_fight_movement_vector, 0.05)
 	else:
-		look_target = lerp(look_target, global_position + velocity.normalized(), 0.05)
-		movement_anim = lerp(movement_anim, -1.0, 0.1)
+		look_target = lerp(look_target, global_position + velocity, 0.15)
 	
 	
 	look_target.y = global_position.y
-	if look_target.length() > 0:
+	if (look_target - global_position).length() > 0:
 		look_at(look_target, Vector3.UP, true)
 	
-	if movement_direction.length() > 0 and is_can_moving:
-		velocity.x = movement_direction.x * speed
-		velocity.z = movement_direction.y * speed
+	if is_can_moving:
+		if is_in_fight:
+			if movement_direction.length() > 0.0:
+				movement_direction = movement_direction.normalized()
+				velocity.x = movement_direction.x * fight_movement_speed
+				velocity.z = movement_direction.y * fight_movement_speed
+			else:
+				velocity.x = 0
+				velocity.z = 0
+				
+				if is_in_fight:
+					fight_movement_anim = Vector2.ZERO
+				else:
+					movement_anim = lerp(movement_anim, 0.0, 0.1)
+		else:
+			print(movement_direction.length())
+			if movement_direction.length() > 0.0 and movement_direction.length() < 0.7:
+				#movement_direction = movement_direction.normalized()
+				velocity.x = movement_direction.normalized().x * walk_speed
+				velocity.z = movement_direction.normalized().y * walk_speed
+				movement_anim = -1.0#lerp(movement_anim, 0.0, 0.1)
+			elif movement_direction.length() >= 0.7:
+				#movement_direction = movement_direction.normalized()
+				velocity.x = movement_direction.normalized().x * run_speed
+				velocity.z = movement_direction.normalized().y * run_speed
+				movement_anim = 1.0#lerp(movement_anim, 0.0, 0.1)
+			else:
+				velocity.x = 0
+				velocity.z = 0
+				
+				if is_in_fight:
+					fight_movement_anim = Vector2.ZERO
+				else:
+					movement_anim = 0.0#lerp(movement_anim, 0.0, 0.1)
 	else:
 		velocity.x = 0
 		velocity.z = 0

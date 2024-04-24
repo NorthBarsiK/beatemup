@@ -18,7 +18,9 @@ var is_in_strike : bool = false
 var is_can_moving : bool = true
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var movement_direction : Vector2 = Vector2.ZERO
-	
+
+var look_target : Vector3 = Vector3.ZERO
+
 func _process(delta):
 	anim_tree.set("parameters/movement/blend_amount", movement_anim)
 	anim_tree.set("parameters/is_fight/blend_amount", is_in_fight)
@@ -29,33 +31,34 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
+	var new_fight_movement_vector : Vector2
+	
+	if is_in_fight:
+		if fight_target == null:
+			printerr("FIGHT TARGET IS NULL")
+		else:
+			look_target = lerp(look_target, fight_target.global_position, 0.05)
+		
+		var rotation_sin = sin(transform.basis.get_euler().y)
+		var rotation_cos = cos(transform.basis.get_euler().y)
+	
+		new_fight_movement_vector.x = velocity.x * rotation_cos - velocity.z * rotation_sin
+		new_fight_movement_vector.y = -(velocity.x * rotation_sin + velocity.z * rotation_cos)
+		new_fight_movement_vector = new_fight_movement_vector.limit_length()
+		
+		fight_movement_anim = lerp(fight_movement_anim, new_fight_movement_vector, 0.05)
+	else:
+		look_target = lerp(look_target, global_position + velocity.normalized(), 0.05)
+		movement_anim = lerp(movement_anim, -1.0, 0.1)
+	
+	
+	look_target.y = global_position.y
+	if look_target.length() > 0:
+		look_at(look_target, Vector3.UP, true)
+	
 	if movement_direction.length() > 0 and is_can_moving:
 		velocity.x = movement_direction.x * speed
 		velocity.z = movement_direction.y * speed
-		
-		var look_target : Vector3 = Vector3.ZERO
-		
-		if is_in_fight:
-			if fight_target == null:
-				printerr("FIGHT TARGET IS NULL")
-			else:
-				look_target = fight_target.global_position
-			
-			var rotation_sin = sin(transform.basis.get_euler().y)
-			var rotation_cos = cos(transform.basis.get_euler().y)
-		
-			fight_movement_anim.x = velocity.x * rotation_cos - velocity.z * rotation_sin
-			fight_movement_anim.y = -(velocity.x * rotation_sin + velocity.z * rotation_cos)
-			fight_movement_anim = fight_movement_anim.limit_length()
-		else:
-			look_target = global_position + velocity.normalized()
-			
-			movement_anim = -1.0
-		
-		look_target.y = global_position.y
-		if look_target.length() > 0:
-			look_at(look_target, Vector3.UP, true)
-		
 	else:
 		velocity.x = 0
 		velocity.z = 0
@@ -63,7 +66,7 @@ func _physics_process(delta):
 		if is_in_fight:
 			fight_movement_anim = Vector2.ZERO
 		else:
-			movement_anim = 0.0
+			movement_anim = lerp(movement_anim, 0.0, 0.1)
 	
 	move_and_slide()
 

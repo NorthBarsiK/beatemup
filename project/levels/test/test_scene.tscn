@@ -61,5 +61,5 @@ transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 
 
 [connection signal="jump" from="Controls" to="Character" method="jump"]
 [connection signal="kick" from="Controls" to="Character" method="kick"]
-[connection signal="move" from="Controls" to="Character" method="move"]
+[connection signal="move" from="Controls" to="Character" method="set_stick_offset"]
 [connection signal="punch" from="Controls" to="Character" method="punch"]

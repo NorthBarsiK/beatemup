@@ -7,24 +7,31 @@ extends CharacterBody3D
 
 @onready var anim_tree : AnimationTree = get_node("AnimationTree")
 
-var movement_anim : float = 0.0 # -1 - Ходьба, 0 - idle, 1 - бег
+var look_target : Vector3 = Vector3.ZERO
+var is_can_moving : bool = true
+var stick_offset : Vector2 = Vector2.ZERO
+var movement_type : float = 0.0
+var movement_types = {
+	walk = -1.0,
+	idle = 0.0,
+	run = 1.0
+}
+var run_stick_offset_length : float = 0.7
+
+var is_in_fight : bool = true
 var fight_movement_anim : Vector2 = Vector2.ZERO
 var fight_jump_anim : float = 0.0
-
 var fight_target : Node = null
-var is_in_fight : bool = true
-var is_continue_combo : bool = false
-var is_can_continue_combo : bool = false
+
 var is_in_strike : bool = false
+var is_can_continue_combo : bool = false
+var is_continue_combo : bool = false
 
-var is_can_moving : bool = true
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-var movement_direction : Vector2 = Vector2.ZERO
 
-var look_target : Vector3 = Vector3.ZERO
 
 func _process(delta):
-	anim_tree.set("parameters/movement/blend_amount", movement_anim)
+	anim_tree.set("parameters/movement/blend_amount", movement_type)
 	anim_tree.set("parameters/is_fight/blend_amount", is_in_fight)
 	anim_tree.set("parameters/fight_movement/blend_position", fight_movement_anim)
 	anim_tree.set("parameters/fight_jump/conditions/is_landing", is_on_floor())
@@ -33,22 +40,27 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
-	var new_fight_movement_vector : Vector2
+	look_rotation()
+	movement()
 	
+	move_and_slide()
+
+func look_rotation():
 	if is_in_fight:
 		if fight_target == null:
 			printerr("FIGHT TARGET IS NULL")
 		else:
+			var new_fight_movement_vector : Vector2
 			look_target = lerp(look_target, fight_target.global_position, 0.05)
 		
-		var rotation_sin = sin(transform.basis.get_euler().y)
-		var rotation_cos = cos(transform.basis.get_euler().y)
-	
-		new_fight_movement_vector.x = velocity.x * rotation_cos - velocity.z * rotation_sin
-		new_fight_movement_vector.y = -(velocity.x * rotation_sin + velocity.z * rotation_cos)
-		new_fight_movement_vector = new_fight_movement_vector.limit_length()
+			var rotation_sin = sin(transform.basis.get_euler().y)
+			var rotation_cos = cos(transform.basis.get_euler().y)
 		
-		fight_movement_anim = lerp(fight_movement_anim, new_fight_movement_vector, 0.05)
+			new_fight_movement_vector.x = velocity.x * rotation_cos - velocity.z * rotation_sin
+			new_fight_movement_vector.y = -(velocity.x * rotation_sin + velocity.z * rotation_cos)
+			new_fight_movement_vector = new_fight_movement_vector.limit_length()
+		
+			fight_movement_anim = lerp(fight_movement_anim, new_fight_movement_vector, 0.05)
 	else:
 		look_target = lerp(look_target, global_position + velocity, 0.15)
 	
@@ -56,55 +68,32 @@ func _physics_process(delta):
 	look_target.y = global_position.y
 	if (look_target - global_position).length() > 0:
 		look_at(look_target, Vector3.UP, true)
+
+func movement():
+	var speed : float = 0.0
 	
 	if is_can_moving:
 		if is_in_fight:
-			if movement_direction.length() > 0.0:
-				movement_direction = movement_direction.normalized()
-				velocity.x = movement_direction.x * fight_movement_speed
-				velocity.z = movement_direction.y * fight_movement_speed
+			if stick_offset.length() > 0.0:
+				stick_offset = stick_offset.normalized()
+				speed = fight_movement_speed
 			else:
-				velocity.x = 0
-				velocity.z = 0
-				
-				if is_in_fight:
-					fight_movement_anim = Vector2.ZERO
-				else:
-					movement_anim = lerp(movement_anim, 0.0, 0.1)
+				fight_movement_anim = Vector2.ZERO
 		else:
-			print(movement_direction.length())
-			if movement_direction.length() > 0.0 and movement_direction.length() < 0.7:
-				#movement_direction = movement_direction.normalized()
-				velocity.x = movement_direction.normalized().x * walk_speed
-				velocity.z = movement_direction.normalized().y * walk_speed
-				movement_anim = -1.0#lerp(movement_anim, 0.0, 0.1)
-			elif movement_direction.length() >= 0.7:
-				#movement_direction = movement_direction.normalized()
-				velocity.x = movement_direction.normalized().x * run_speed
-				velocity.z = movement_direction.normalized().y * run_speed
-				movement_anim = 1.0#lerp(movement_anim, 0.0, 0.1)
+			if stick_offset.length() > 0.0 and stick_offset.length() < run_stick_offset_length:
+				speed = walk_speed
+				movement_type = movement_types.walk
+			elif stick_offset.length() >= run_stick_offset_length:
+				speed = run_speed
+				movement_type = movement_types.run
 			else:
-				velocity.x = 0
-				velocity.z = 0
-				
-				if is_in_fight:
-					fight_movement_anim = Vector2.ZERO
-				else:
-					movement_anim = 0.0#lerp(movement_anim, 0.0, 0.1)
-	else:
-		velocity.x = 0
-		velocity.z = 0
+				movement_type = movement_types.idle
 		
-		if is_in_fight:
-			fight_movement_anim = Vector2.ZERO
-		else:
-			movement_anim = lerp(movement_anim, 0.0, 0.1)
-	
-	move_and_slide()
+	velocity.x = stick_offset.normalized().x * speed
+	velocity.z = stick_offset.normalized().y * speed
 
-
-func move(movement_vector : Vector2):
-	movement_direction = movement_vector
+func set_stick_offset(offset : Vector2):
+	stick_offset = offset
 
 func jump():
 	if is_on_floor():
@@ -141,7 +130,7 @@ func combo_end():
 	anim_tree.set("parameters/strikes/conditions/is_continue_combo", false)
 	is_in_strike = false
 
-func set_target(new_target : Node3D):
+func set_fight_target(new_target : Node3D):
 	fight_target = new_target
 
 func stop_moving():

@@ -11,10 +11,11 @@ func _ready():
 			enemies.append(node)
 
 func _physics_process(delta):
-	check_distance_to_enemies()
-	
-func check_distance_to_enemies():
 	if enemies.size() > 0 and player != null:
+		var player_target = get_closest_enemy()
+		emit_signal("send_target", player_target)
+	
+func get_closest_enemy():
 		var distances_to_enemies = []
 		
 		for enemy in enemies:
@@ -23,10 +24,9 @@ func check_distance_to_enemies():
 			
 		var closest_enemy_id = distances_to_enemies.find(distances_to_enemies.min())
 		
-		emit_signal("send_target", enemies[closest_enemy_id])
-		
+		return enemies[closest_enemy_id]
 
 func _on_body_entered(body : Node):
 	if body.is_in_group("player"):
 		player = body
-		send_target.connect(func(target : Node3D): player.set_target(target))
+		send_target.connect(func(target : Node3D): player.set_fight_target(target))

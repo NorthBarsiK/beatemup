@@ -12,7 +12,7 @@ var fight_movement_anim : Vector2 = Vector2.ZERO
 var fight_jump_anim : float = 0.0
 
 var fight_target : Node = null
-var is_in_fight : bool = false
+var is_in_fight : bool = true
 var is_continue_combo : bool = false
 var is_can_continue_combo : bool = false
 var is_in_strike : bool = false

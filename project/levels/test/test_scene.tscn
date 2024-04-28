@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://dn6oykhkef5cw"]
+[gd_scene load_steps=10 format=3 uid="uid://dn6oykhkef5cw"]
 
 [ext_resource type="PackedScene" uid="uid://dq5qxva1s6kt3" path="res://UI/debug/technical_info.tscn" id="2_307ix"]
 [ext_resource type="PackedScene" uid="uid://blmvse35yw5l4" path="res://UI/controls/controls.tscn" id="3_6svh8"]
 [ext_resource type="PackedScene" uid="uid://ct4i8jjtxuquu" path="res://characters/hero/hero.tscn" id="3_155ue"]
 [ext_resource type="PackedScene" uid="uid://dm7qypi2sqiat" path="res://levels/test/fighting_manager.tscn" id="4_jvc2x"]
 [ext_resource type="PackedScene" uid="uid://cr1v71f33wuqq" path="res://levels/props/punching_bag.tscn" id="4_wgdcn"]
+[ext_resource type="Script" path="res://camera/camera.gd" id="6_ocpfu"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_5lpjy"]
 size = Vector3(20, 1, 20)
@@ -30,9 +31,6 @@ shape = SubResource("ConcavePolygonShape3D_bdis3")
 transform = Transform3D(0.541605, -0.427247, 0.723963, 0, 0.861213, 0.508245, -0.840633, -0.275268, 0.466437, 0, 1.90928, 0)
 light_energy = 0.75
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 3.69571, 3.59175)
-
 [node name="Character" parent="." groups=["player"] instance=ExtResource("3_155ue")]
 
 [node name="TechnicalInfo" parent="." instance=ExtResource("2_307ix")]
@@ -53,6 +51,13 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 3.12773, 0, 2.33391)
 
 [node name="PunchingBag5" parent="FightingManager" groups=["enemy"] instance=ExtResource("4_wgdcn")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -4.43646, 0, 2.13717)
+
+[node name="Camera" type="Node3D" parent="."]
+script = ExtResource("6_ocpfu")
+target_node_path = NodePath("../Character")
+
+[node name="Camera3D" type="Camera3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 3.69571, 3.59175)
 
 [connection signal="jump" from="Controls" to="Character" method="jump"]
 [connection signal="kick" from="Controls" to="Character" method="kick"]
